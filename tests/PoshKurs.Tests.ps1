@@ -150,7 +150,7 @@ Describe 'Get-ServiceStatus' {
             }
         }
         
-        # Mock für Get-ServiceStatus, da PSCustomObject nicht vom Typ ServiceController ist
+        # Mock für Get-ServiceStatus, da wir PSCustomObjects verwenden (keine echten ServiceController)
         Mock Get-ServiceStatus {
             "Von 20 Diensten laufen 5 Dienste zur Zeit nicht"
         }
