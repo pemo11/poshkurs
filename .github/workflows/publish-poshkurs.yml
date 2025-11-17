@@ -27,16 +27,16 @@ jobs:
           Install-Module Pester -Scope CurrentUser -Force -SkipPublisherCheck
           Import-Module Pester
 
-      - name: Determine module path (latest version folder under poshkurs)
+      - name: Determine module path (latest version folder under repo root)
         id: moduledir
         shell: pwsh
         run: |
-          $root = Join-Path $PWD 'poshkurs'
+          # Repo-Root ist bereits D:\a\poshkurs\poshkurs
+          $root = $PWD
 
-          if (-not (Test-Path $root)) {
-            Write-Error "Root path $root not found. Bitte prüfen, ob der Ordner 'poshkurs' im Repo existiert."
-          }
+          Write-Host "Repo root is: $root"
 
+          # Unterordner mit Versionsnamen wie 1.2.0, 1.3.0 usw. suchen
           $versionFolders = Get-ChildItem $root -Directory |
             Where-Object { $_.Name -match '^\d+\.\d+\.\d+(-.*)?$' } |
             Sort-Object Name -Descending
@@ -130,7 +130,7 @@ jobs:
                          -NuGetApiKey $env:NUGET_API_KEY `
                          -Verbose
 
-      - name: Smoke test: install PoshKurs from MyGet
+      - name: Smoke test - install PoshKurs from MyGet
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
