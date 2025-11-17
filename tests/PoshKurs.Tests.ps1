@@ -3,11 +3,13 @@
 
 # 1) Modulpfad dynamisch aus der Repo-Struktur bestimmen
 BeforeAll {
-    # Ordner, in dem diese Testdatei liegt
-    $here = Split-Path -Parent $MyInvocation.MyCommand.Path
-    # Repo-Root = ein Ordner höher
-    $repoRoot = Split-Path -Parent $here
+    # Ordner, in dem diese Testdatei liegt (…\tests)
+    $testsRoot = $PSScriptRoot
 
+    # Repo-Root = ein Ordner höher (…\)
+    $repoRoot = Split-Path -Parent $testsRoot
+    Write-Host "Repo root (aus PSScriptRoot): $repoRoot"
+    
     # Versionsordner finden, z.B. 1.2.0, 1.3.0, ...
     $versionFolder = Get-ChildItem -Path $repoRoot -Directory |
         Where-Object { $_.Name -match '^\d+\.\d+\.\d+(-.*)?$' } |
