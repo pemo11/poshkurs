@@ -1,6 +1,7 @@
 # tests\PoshKurs.Tests.ps1
 # Pester 5 Tests für das Modul PoshKurs
 
+#requires -Modules @{ModuleName='PoshKurs'; ModuleVersion='1.2.0'}
 
 # 1) Modulpfad dynamisch aus der Repo-Struktur bestimmen
 BeforeAll {
@@ -139,7 +140,8 @@ Describe 'Get-ServiceStatus' {
 
     BeforeAll {
         # Mock für Get-Service im PoshKurs-Modul, um PermissionDenied-Fehler zu vermeiden
-        Mock Get-Service -ModuleName PoshKurs {
+        # Ohne -ModuleName PoshKurs ?
+        Mock Get-Service {
             1..20 | ForEach-Object {
                 $status = if ($_ % 4 -eq 0) { 'Stopped' } else { 'Running' }
                 [PSCustomObject]@{
