@@ -1,8 +1,6 @@
 # tests\PoshKurs.Tests.ps1
 # Pester 5 Tests für das Modul PoshKurs
 
-#requires -Modules @{ModuleName='PoshKurs'; ModuleVersion='1.2.0'}
-
 # 1) Modulpfad dynamisch aus der Repo-Struktur bestimmen
 BeforeAll {
     # Ordner, in dem diese Testdatei liegt (…\tests)
