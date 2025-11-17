@@ -1,0 +1,171 @@
+<Objs Version="1.1.0.1" xmlns="http://schemas.microsoft.com/powershell/2004/04">
+  <Obj RefId="0">
+    <TN RefId="0">
+      <T>Microsoft.PowerShell.Commands.PSRepositoryItemInfo</T>
+      <T>System.Management.Automation.PSCustomObject</T>
+      <T>System.Object</T>
+    </TN>
+    <MS>
+      <S N="Name">PoshKurs</S>
+      <Version N="Version">1.2.0</Version>
+      <S N="Type">Module</S>
+      <S N="Description">Enthaelt diverse Functions fuer meine PowerShell-Schulungen</S>
+      <S N="Author">Pemo</S>
+      <Obj N="CompanyName" RefId="1">
+        <TN RefId="1">
+          <T>System.Management.Automation.PSCustomObject</T>
+          <T>System.Object</T>
+        </TN>
+      </Obj>
+      <S N="Copyright">None</S>
+      <DT N="PublishedDate">2020-02-16T14:24:52+01:00</DT>
+      <Obj N="InstalledDate" RefId="2">
+        <DT>2025-11-17T15:13:08.3019313+01:00</DT>
+        <MS>
+          <Obj N="DisplayHint" RefId="3">
+            <TN RefId="2">
+              <T>Microsoft.PowerShell.Commands.DisplayHintType</T>
+              <T>System.Enum</T>
+              <T>System.ValueType</T>
+              <T>System.Object</T>
+            </TN>
+            <ToString>DateTime</ToString>
+            <I32>2</I32>
+          </Obj>
+        </MS>
+      </Obj>
+      <Nil N="UpdatedDate" />
+      <Nil N="LicenseUri" />
+      <URI N="ProjectUri">https://github.com/pemo11/poshschulung</URI>
+      <Nil N="IconUri" />
+      <Obj N="Tags" RefId="4">
+        <TN RefId="3">
+          <T>System.Object[]</T>
+          <T>System.Array</T>
+          <T>System.Object</T>
+        </TN>
+        <LST>
+          <S>PowerShell-Schulung</S>
+          <S>Core</S>
+          <S>PSModule</S>
+        </LST>
+      </Obj>
+      <Obj N="Includes" RefId="5">
+        <TN RefId="4">
+          <T>System.Collections.Hashtable</T>
+          <T>System.Object</T>
+        </TN>
+        <DCT>
+          <En>
+            <S N="Key">Cmdlet</S>
+            <Obj N="Value" RefId="6">
+              <TNRef RefId="3" />
+              <LST>
+                <S>Get-PCInfo</S>
+              </LST>
+            </Obj>
+          </En>
+          <En>
+            <S N="Key">RoleCapability</S>
+            <Obj N="Value" RefId="7">
+              <TNRef RefId="3" />
+              <LST />
+            </Obj>
+          </En>
+          <En>
+            <S N="Key">Workflow</S>
+            <Ref N="Value" RefId="7" />
+          </En>
+          <En>
+            <S N="Key">Command</S>
+            <Obj N="Value" RefId="8">
+              <TNRef RefId="3" />
+              <LST>
+                <S>Get-PCInfo</S>
+                <S>Get-Password</S>
+                <S>Get-Computerkonten</S>
+                <S>Test-Computerkonto</S>
+                <S>Test-Admin</S>
+                <S>Out-Voice</S>
+                <S>Get-ServiceStatus</S>
+                <S>Get-Datum</S>
+                <S>Get-ObjectCount</S>
+                <S>Get-Type</S>
+                <S>Get-NetVersion</S>
+                <S>Get-LocalProgramfile</S>
+                <S>Get-UninstallApp</S>
+                <S>IsInstalled</S>
+                <S>Out-Chart</S>
+                <S>Test-PoshChart</S>
+                <S>count</S>
+                <S>iprogfi</S>
+                <S>GetApps</S>
+              </LST>
+            </Obj>
+          </En>
+          <En>
+            <S N="Key">Function</S>
+            <Obj N="Value" RefId="9">
+              <TNRef RefId="3" />
+              <LST>
+                <S>Get-Password</S>
+                <S>Get-Computerkonten</S>
+                <S>Test-Computerkonto</S>
+                <S>Test-Admin</S>
+                <S>Out-Voice</S>
+                <S>Get-ServiceStatus</S>
+                <S>Get-Datum</S>
+                <S>Get-ObjectCount</S>
+                <S>Get-Type</S>
+                <S>Get-NetVersion</S>
+                <S>Get-LocalProgramfile</S>
+                <S>Get-UninstallApp</S>
+                <S>IsInstalled</S>
+                <S>Out-Chart</S>
+                <S>Test-PoshChart</S>
+              </LST>
+            </Obj>
+          </En>
+          <En>
+            <S N="Key">DscResource</S>
+            <Ref N="Value" RefId="7" />
+          </En>
+        </DCT>
+      </Obj>
+      <Nil N="PowerShellGetFormatVersion" />
+      <Nil N="ReleaseNotes" />
+      <Obj N="Dependencies" RefId="10">
+        <TNRef RefId="3" />
+        <LST />
+      </Obj>
+      <S N="RepositorySourceLocation">https://www.myget.org/F/poshrepo/api/v2</S>
+      <S N="Repository">PoshRepo</S>
+      <S N="PackageManagementProvider">NuGet</S>
+      <Obj N="AdditionalMetadata" RefId="11">
+        <TNRef RefId="1" />
+        <MS>
+          <S N="summary">Enthaelt diverse Functions fuer meine PowerShell-Schulungen</S>
+          <S N="copyright">None</S>
+          <S N="description">Enthaelt diverse Functions fuer meine PowerShell-Schulungen</S>
+          <S N="requireLicenseAcceptance">False</S>
+          <S N="language">en-US</S>
+          <S N="isLatestVersion">True</S>
+          <S N="isAbsoluteLatestVersion">True</S>
+          <S N="versionDownloadCount">122</S>
+          <S N="downloadCount">122</S>
+          <S N="packageSize">10832</S>
+          <S N="published">16.02.2020 14:24:52 +01:00</S>
+          <S N="created">16.02.2020 14:24:52 +01:00</S>
+          <S N="lastEdited">16.02.2020 14:24:52 +01:00</S>
+          <S N="tags">PowerShell-Schulung Core PSModule PSIncludes_Cmdlet PSCmdlet_Get-PCInfo PSIncludes_Function PSFunction_Get-Password PSFunction_Get-Computerkonten PSFunction_Test-Computerkonto PSFunction_Test-Admin PSFunction_Out-Voice PSFunction_Get-ServiceStatus PSFunction_Get-Datum PSFunction_Get-ObjectCount PSFunction_Get-Type PSFunction_Get-NetVersion PSFunction_Get-LocalProgramfile PSFunction_Get-UninstallApp PSFunction_IsInstalled PSFunction_Out-Chart PSFunction_Test-PoshChart PSCommand_Get-PCInfo PSCommand_Get-Password PSCommand_Get-Computerkonten PSCommand_Test-Computerkonto PSCommand_Test-Admin PSCommand_Out-Voice PSCommand_Get-ServiceStatus PSCommand_Get-Datum PSCommand_Get-ObjectCount PSCommand_Get-Type PSCommand_Get-NetVersion PSCommand_Get-LocalProgramfile PSCommand_Get-UninstallApp PSCommand_IsInstalled PSCommand_Out-Chart PSCommand_Test-PoshChart PSCommand_count PSCommand_iprogfi PSCommand_GetApps</S>
+          <S N="title">PoshKurs</S>
+          <S N="developmentDependency">False</S>
+          <S N="updated">2020-02-16T13:24:52Z</S>
+          <S N="NormalizedVersion">1.2.0</S>
+          <S N="IsPrerelease">false</S>
+        </MS>
+      </Obj>
+      <S N="InstalledLocation">C:\Users\qskills\Documents\PowerShell\Modules\PoshKurs\1.2.0</S>
+    </MS>
+  </Obj>
+</Objs>
