@@ -1,7 +1,5 @@
 # tests\PoshKurs.Tests.ps1
 # Pester 5 Tests für das Modul PoshKurs
-#requires -module @{moduleName='PoshKurs'; ModuleVersion='1.2.0'}
-#requires -module @{moduleName='Pester'; ModuleVersion='5.0.0'}
 
 # 1) Modulpfad dynamisch aus der Repo-Struktur bestimmen
 BeforeAll {
