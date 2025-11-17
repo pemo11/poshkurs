@@ -21,11 +21,23 @@ jobs:
             Install-Module PowerShellGet -Scope CurrentUser -Force -SkipPublisherCheck
           }
 
-      - name: Install Pester (v5)
+      - name: Install Pester 5.7.0
         shell: pwsh
         run: |
-          Install-Module Pester -Scope CurrentUser -Force -SkipPublisherCheck
-          Import-Module Pester
+          Write-Host "Entferne vorinstalliertes Pester 3.x aus dem Systempfad..."
+          $systemPester = "C:\Program Files\WindowsPowerShell\Modules\Pester"
+          if (Test-Path $systemPester) {
+            Rename-Item -Path $systemPester -NewName "Pester_3_DISABLED" -Force
+          }
+
+          Write-Host "Installiere Pester 5.7.0..."
+          Install-Module Pester -RequiredVersion 5.7.0 -Scope CurrentUser -Force -SkipPublisherCheck
+
+          Write-Host "Importiere Pester 5.7.0..."
+          Import-Module Pester -RequiredVersion 5.7.0 -Force
+
+          Write-Host "Verwendete Pester-Version:"
+          (Get-Module Pester).Version
 
       - name: Determine module path (latest version folder under repo root)
         id: moduledir
