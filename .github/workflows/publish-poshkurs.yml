@@ -54,12 +54,6 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-
-          # Modulpfad in PSModulePath aufnehmen, damit Import-Module PoshKurs funktioniert
-          $modulePath = '${{ steps.moduledir.outputs.modulePath }}'
-          Write-Host "Adding $modulePath to PSModulePath"
-          $env:PSModulePath = "$modulePath;" + $env:PSModulePath
-
           Write-Host "Running Pester tests from ./tests"
           Invoke-Pester -Path ./tests -Output Detailed -CI
 
