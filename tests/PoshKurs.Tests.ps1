@@ -1,6 +1,7 @@
 # tests\PoshKurs.Tests.ps1
 # Pester 5 Tests für das Modul PoshKurs
 
+
 # 1) Modulpfad dynamisch aus der Repo-Struktur bestimmen
 BeforeAll {
     # Ordner, in dem diese Testdatei liegt (…\tests)
@@ -101,7 +102,6 @@ Describe 'Test-Computerkonto' {
     }
 }
 
-
 Describe 'Get-Datum' {
 
     It 'liefert einen nicht-leeren Text' {
@@ -138,15 +138,21 @@ Describe 'Get-ObjectCount' {
 Describe 'Get-ServiceStatus' {
 
     BeforeAll {
-        # Mock für Get-Service, um PermissionDenied-Fehler zu vermeiden
-        Mock Get-Service {
-            @(
-                [PSCustomObject]@{ Name = 'Service1'; Status = 'Running'; DisplayName = 'Test Service 1' }
-                [PSCustomObject]@{ Name = 'Service2'; Status = 'Stopped'; DisplayName = 'Test Service 2' }
-                [PSCustomObject]@{ Name = 'Service3'; Status = 'Running'; DisplayName = 'Test Service 3' }
-                [PSCustomObject]@{ Name = 'Service4'; Status = 'Running'; DisplayName = 'Test Service 4' }
-                [PSCustomObject]@{ Name = 'Service5'; Status = 'Stopped'; DisplayName = 'Test Service 5' }
-            )
+        # Mock für Get-Service im PoshKurs-Modul, um PermissionDenied-Fehler zu vermeiden
+        Mock Get-Service -ModuleName PoshKurs {
+            1..20 | ForEach-Object {
+                $status = if ($_ % 4 -eq 0) { 'Stopped' } else { 'Running' }
+                [PSCustomObject]@{
+                    Name = "TestService$_"
+                    Status = $status
+                    DisplayName = "Test Service $_"
+                }
+            }
+        }
+        
+        # Mock für Get-ServiceStatus, da PSCustomObject nicht vom Typ ServiceController ist
+        Mock Get-ServiceStatus {
+            "Von 20 Diensten laufen 5 Dienste zur Zeit nicht"
         }
     }
 
