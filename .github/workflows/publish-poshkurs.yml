@@ -1,4 +1,4 @@
-name: Publish poshkurs module to MyGet
+name: Publish PoshKurs module to MyGet
 
 on:
   push:
@@ -21,6 +21,48 @@ jobs:
             Install-Module PowerShellGet -Scope CurrentUser -Force -SkipPublisherCheck
           }
 
+      - name: Install Pester (v5)
+        shell: pwsh
+        run: |
+          Install-Module Pester -Scope CurrentUser -Force -SkipPublisherCheck
+          Import-Module Pester
+
+      - name: Determine module path (latest version folder under poshkurs)
+        id: moduledir
+        shell: pwsh
+        run: |
+          $root = Join-Path $PWD 'poshkurs'
+
+          if (-not (Test-Path $root)) {
+            Write-Error "Root path $root not found. Bitte prüfen, ob der Ordner 'poshkurs' im Repo existiert."
+          }
+
+          $versionFolders = Get-ChildItem $root -Directory |
+            Where-Object { $_.Name -match '^\d+\.\d+\.\d+(-.*)?$' } |
+            Sort-Object Name -Descending
+
+          if ($versionFolders.Count -eq 0) {
+            Write-Error "Kein Versionsordner unter '$root' gefunden. Erwartet z.B. '1.2.0'."
+          }
+
+          $modulePath = $versionFolders[0].FullName
+          Write-Host "Using module path: $modulePath"
+
+          "modulePath=$modulePath" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Run Pester tests
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+
+          # Modulpfad in PSModulePath aufnehmen, damit Import-Module PoshKurs funktioniert
+          $modulePath = '${{ steps.moduledir.outputs.modulePath }}'
+          Write-Host "Adding $modulePath to PSModulePath"
+          $env:PSModulePath = "$modulePath;" + $env:PSModulePath
+
+          Write-Host "Running Pester tests from ./tests"
+          Invoke-Pester -Path ./tests -Output Detailed -CI
+
       - name: Register MyGet repository (poshrepo)
         shell: pwsh
         run: |
@@ -36,30 +78,6 @@ jobs:
           } else {
             Write-Host "Repository $repoName already registered."
           }
-
-      - name: Determine module path (latest version folder under poshkurs)
-        id: moduledir
-        shell: pwsh
-        run: |
-          $root = Join-Path $PWD 'poshkurs'
-
-          if (-not (Test-Path $root)) {
-            Write-Error "Root path $root not found. Bitte prüfen, ob der Ordner 'poshkurs' im Repo existiert."
-          }
-
-          # Suche nach Unterordnern mit Versionsnamen wie 1.2.0, 1.2.0-preview etc.
-          $versionFolders = Get-ChildItem $root -Directory |
-            Where-Object { $_.Name -match '^\d+\.\d+\.\d+(-.*)?$' } |
-            Sort-Object Name -Descending
-
-          if ($versionFolders.Count -eq 0) {
-            Write-Error "Kein Versionsordner unter '$root' gefunden. Erwartet z.B. '1.2.0'."
-          }
-
-          $modulePath = $versionFolders[0].FullName
-          Write-Host "Using module path: $modulePath"
-
-          "modulePath=$modulePath" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
 
       - name: Set module version from tag (optional, aber praktisch)
         if: startsWith(github.ref, 'refs/tags/')
@@ -112,13 +130,22 @@ jobs:
                          -NuGetApiKey $env:NUGET_API_KEY `
                          -Verbose
 
-      - name: Smoke test - install PoshKurs from MyGet
+      - name: Smoke test: install PoshKurs from MyGet
         shell: pwsh
         run: |
-          Register-PSRepository -Name 'PemoMyGet' `
-            -SourceLocation  'https://www.myget.org/F/poshrepo/api/v2' `
-            -InstallationPolicy Trusted
+          $ErrorActionPreference = 'Stop'
 
+          # Repository sicherheitshalber nochmal registrieren
+          if (-not (Get-PSRepository -Name 'PemoMyGet' -ErrorAction SilentlyContinue)) {
+            Register-PSRepository -Name 'PemoMyGet' `
+              -SourceLocation  'https://www.myget.org/F/poshrepo/api/v2' `
+              -InstallationPolicy Trusted
+          }
+
+          Write-Host "Installing PoshKurs from MyGet (PemoMyGet)..."
           Install-Module -Name PoshKurs -Repository 'PemoMyGet' -Scope CurrentUser -Force -AllowClobber
+
+          Write-Host "Importing PoshKurs..."
           Import-Module PoshKurs -ErrorAction Stop
-          Write-Host "Smoke test OK: PoshKurs import succeeded."
+
+          Write-Host "Smoke test OK: PoshKurs could be installed and imported from MyGet."
