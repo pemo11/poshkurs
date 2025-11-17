@@ -80,17 +80,27 @@ Describe 'Get-Computerkonten' {
 
 Describe 'Test-Computerkonto' {
 
+    It 'akzeptiert Computerkonto-Objekte aus der Pipeline' {
+        $konten = Get-Computerkonten -Anzahl 3
+
+        { $konten | Test-Computerkonto | Out-Null } | Should -Not -Throw
+    }
+
     It 'liefert für jedes Computerkonto ein Objekt mit Status und ResponseTime' {
         $konten = Get-Computerkonten -Anzahl 3
+
+        # Aufruf NUR über die Pipeline, keine zusätzlichen -Name/-Computername-Parameter
         $result = $konten | Test-Computerkonto
 
         $result | Should -Not -BeNullOrEmpty
+
         $result | ForEach-Object {
-            $_ | Should -HaveProperty 'Status'
-            $_ | Should -HaveProperty 'ResponseTime'
+            $_.PSObject.Properties.Name | Should -Contain 'Status'
+            $_.PSObject.Properties.Name | Should -Contain 'ResponseTime'
         }
     }
 }
+
 
 Describe 'Get-Datum' {
 
@@ -126,6 +136,19 @@ Describe 'Get-ObjectCount' {
 }
 
 Describe 'Get-ServiceStatus' {
+
+    BeforeAll {
+        # Mock für Get-Service, um PermissionDenied-Fehler zu vermeiden
+        Mock Get-Service {
+            @(
+                [PSCustomObject]@{ Name = 'Service1'; Status = 'Running'; DisplayName = 'Test Service 1' }
+                [PSCustomObject]@{ Name = 'Service2'; Status = 'Stopped'; DisplayName = 'Test Service 2' }
+                [PSCustomObject]@{ Name = 'Service3'; Status = 'Running'; DisplayName = 'Test Service 3' }
+                [PSCustomObject]@{ Name = 'Service4'; Status = 'Running'; DisplayName = 'Test Service 4' }
+                [PSCustomObject]@{ Name = 'Service5'; Status = 'Stopped'; DisplayName = 'Test Service 5' }
+            )
+        }
+    }
 
     It 'liefert einen Zusammenfassungstext für Service-Objekte' {
         $services = Get-Service | Select-Object -First 5
