@@ -222,6 +222,16 @@ function Get-Type
     }
 }
 
+
+<#
+ .SYNOPSIS
+ Prüft, ob die PowerShell als Administrator ausgeführt wird
+#>
+function Test-Admin
+{
+    return ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole("Administrator")
+}
+
 # Aliase festlegen
 Set-Alias -Name count -Value Get-ObjectCount
  
