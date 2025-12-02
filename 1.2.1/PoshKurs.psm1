@@ -3,7 +3,7 @@
  Enthält verschiedene Functions für die PowerShell-Grundlagenschulung
 #>
 
-#requires -version 5.0
+#requires -version 7.0
 
 <#
 .Synopsis
