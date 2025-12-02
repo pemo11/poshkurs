@@ -232,6 +232,38 @@ function Test-Admin
     return ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole("Administrator")
 }
 
+<#
+ .SYNOPSIS
+ Generiert tabellarische Textdaten (für Übungen)
+#>
+function Get-VMTextData {
+    [CmdletBinding()]
+    param(
+        [Parameter()][int]$Count = 20
+    )
+
+    # Kopfzeile
+    $header = "ID    StartTime            Type        Size     Status"
+    Write-Output $header
+
+    # Beispielwerte
+    $types  = "Linux","Windows","BSD"
+    $sizes  = "Small","Medium","Large"
+    $states = "Running","Stopped","Paused","Error"
+
+    # Zeilen generieren
+    1..$Count | ForEach-Object {
+        $id        = "{0:D4}" -f $_
+        $startTime = (Get-Date).AddMinutes(- (Get-Random -Min 10 -Max 1500)).ToString("yyyy-MM-dd HH:mm")
+        $type      = $types | Get-Random
+        $size      = $sizes | Get-Random
+        $status    = $states | Get-Random
+
+        # Mehrere Leerzeichen für spätere Parsing-Übungen
+        "{0}    {1}    {2}    {3}    {4}" -f $id, $startTime, $type, $size, $status
+    }
+}
+
 # Aliase festlegen
 Set-Alias -Name count -Value Get-ObjectCount
  
